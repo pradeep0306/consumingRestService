@@ -1,11 +1,16 @@
 package com.projectUser.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.projectUser.Model.Users;
+ import com.projectUser.Model.Users; 
 //import org.springframework.web.servlet.ModelAndView;
 
 
@@ -28,4 +33,25 @@ public class UserController {
 		out =out.concat("</table>");
 		return out;
 	}
+	
+	
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public ModelAndView validateLoginDetails(HttpServletRequest req,HttpServletResponse res)
+	{
+		String username=req.getParameter("username");
+		String pass=req.getParameter("pass");
+		if(username.equals("admin") && pass.equals("password"))
+		{
+	 		RestTemplate restTemplate = new RestTemplate();
+			String url = "https://jsonplaceholder.typicode.com/users";
+			Users[] user = restTemplate.getForObject(url, Users[].class);
+			//System.out.println("in Controller");
+			return new ModelAndView("welcomePage","result",user);
+		}
+		else
+		{
+			return new ModelAndView("errorPage","result","Credentials are not matched");
+		}
+	}
+	
 }
