@@ -23,6 +23,6 @@
 			 	<input type="Submit" value="Submit"/>
         	</div>
     </form>
-	<div id="ajaxResponse" class="container"></div>
-</body>
+    <a href="check">Check Content</a>
+	</body>
 </html>

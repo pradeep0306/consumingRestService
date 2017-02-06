@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
- import com.projectUser.Model.Users; 
+import com.projectUser.Model.Article;
+import com.projectUser.Model.Users; 
 //import org.springframework.web.servlet.ModelAndView;
 
 
@@ -52,6 +53,17 @@ public class UserController {
 		{
 			return new ModelAndView("errorPage","result","Credentials are not matched");
 		}
+	}
+	
+	@RequestMapping(value="check", method=RequestMethod.GET)
+	public ModelAndView getCourse()
+	{
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost/drupal/rest_service/news";
+		//String data = restTemplate.getForObject(url, String.class);
+		//return new ModelAndView("coursePage","result",data);
+		Article[] data = restTemplate.getForObject(url, Article[].class);
+		return new ModelAndView("coursePage","result",data);
 	}
 	
 }
